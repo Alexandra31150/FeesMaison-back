@@ -1,25 +1,23 @@
-require('dotenv').config();
 const express = require('express');
-const app = express();
 const cors = require('cors');
+// const errorHandler = require('./utils/error-handler');
 
-const PORT = process.env.PORT || (process.env.NODE_ENV === 'test' ? 3001 : 3000);
+const app = express();
+const PORT = process.env.PORT || (process.env.NODE_ENV === 'test' ? 3001 : 4000);
+
+const creators = require('./routes/products');
+const products = require('./routes/creators');
 
 app.use(express.json());
 app.use(cors());
-// prettier-ignore
 app.use(
   express.urlencoded({
     extended: true,
   }),
 );
-// import rout files here
 
-// const tableRouter = require('./routes/tableroute');
-
-// add app.use here
-
-// app.use('/tables, tableRouter);
+app.use('/creator', creators);
+app.use('/product', products);
 
 const server = app.listen(PORT, () => {
   console.log(`🌍 Server is running on port ${PORT}`);
